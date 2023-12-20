@@ -17,3 +17,7 @@ Install PgAdmin4 (i.e postgres Sql database ) and create a new Database StudentD
 
 ******************* To run the project *****************************
 # py manage.py runserver
+
+
+**** After every  pip install run this command
+# pip freeze > requirement.txt
