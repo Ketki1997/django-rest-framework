@@ -98,3 +98,30 @@ def student_listing(request):
     student = Student.objects.all()
     student_list = list(student.values())
     return Response({'students-list' :student_list }, status=status.HTTP_200_OK)
+
+
+# update the registered student
+@api_view(['PUT'])
+@current_user_middleware
+def student_update(request,student_id):
+    try:
+        student = Student.objects.get(id=student_id)
+    except Student.DoesNotExist:
+        return Response({'message' : f'Student with ID {student_id} does not exist' }, status=status.HTTP_400_BAD_REQUEST)
+    studentdata = StudentSerializer(instance=student, data=request.data, partial=True)
+    if studentdata.is_valid():
+        studentdata.save()
+        return Response({'message' :"Student data updated successfully" }, status=status.HTTP_200_OK)
+    else:
+        return Response({'message' :"Student is Invalid",'errors':studentdata.errors }, status=status.HTTP_200_OK)
+    
+# delete the registered student with authentication
+@api_view(['DELETE'])
+@current_user_middleware
+def student_delete(request,student_id):
+    try:
+        student = Student.objects.get(id=student_id)
+    except Student.DoesNotExist:
+        return Response({'message' : f'Student with ID {student_id} does not exist' }, status=status.HTTP_400_BAD_REQUEST)
+    student.delete()
+    return Response({'message' :"Student data deleted successfully" }, status=status.HTTP_200_OK)
