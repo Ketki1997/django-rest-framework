@@ -1,22 +1,16 @@
-from django.shortcuts import render
-
 # Create your views here.
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
-# from rest_framework.authentication import SessionAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import UserSerializer,StudentSerializer
 from rest_framework import status
-from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import make_password,check_password
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Student
-from django.utils.decorators import method_decorator
 from .middlewares  import current_user_middleware
-from .tokens import StudentAccessToken
 
 @api_view(['POST'])
 def login(request):
